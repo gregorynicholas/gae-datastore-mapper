@@ -6,8 +6,8 @@ import datetime
 
 from handlers.base import BaseHandler
 from models.file import File
-from lib.datastore_mapper.querymapper import DeleteMapper
-from lib.datastore_mapper.querymapper import FileCounter
+from datastore_mapper.querymapper import DeleteMapper
+from datastore_mapper.querymapper import FileCounter
 
 
 class FileHandler(BaseHandler):
