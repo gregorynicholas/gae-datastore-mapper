@@ -1,67 +1,10 @@
 import webapp2
 import logging
-from webapp2_extras import jinja2
-from google.appengine.ext import ndb
 
-from wtforms import Form
-from wtforms import TextField
-from wtforms import BooleanField
-from wtforms import validators
 from wtforms.ext.appengine.ndb import model_form
 
-
-class BaseHandler(webapp2.RequestHandler):
-    """
-    BaseHandler for all request RequestHandlers
-    """
-    @webapp2.cached_property
-    def jinja2(self):
-        # Returns a Jinja2 renderer cached in the app registry.
-        return jinja2.get_jinja2(app=self.app)
-
-    def render_response(self, _template, context=None):
-        context = context or {}
-
-        extra_context = {
-          'request': self.request,
-          'uri_for': self.uri_for,
-        }
-
-        # Only override extra context stuff if it's not set by the template:
-        for key, value in extra_context.items():
-            if key not in context:
-                context[key] = value
-
-        # Renders a template and writes the result to the response.
-        rv = self.jinja2.render_template(_template, **context)
-        self.response.write(rv)
-
-
-class ResourceModel(ndb.Model):
-    """
-    A simple Resource Model
-    """
-    id = ndb.IntegerProperty(required=True)
-    name = ndb.StringProperty(required=True)
-    description = ndb.TextProperty()
-    actve = ndb.BooleanProperty()
-
-
-class ResourceForm(Form):
-    """
-    A simple ResourceForm
-    """
-    id = TextField(label='Resource ID',
-                   validators=[validators.required(), validators.length(max=10)],
-                   description='This is the id of the resource.')
-    name = TextField(label='Resource Name',
-                   validators=[validators.required(), validators.length(max=10)],
-                   description='This is the name of the resource.')
-    description = TextField(label='Resource Description',
-                   validators=[validators.required(), validators.length(max=10)],
-                   description='This is the description of the resource.')
-    active = BooleanField(label='Active',
-                    description='This determines if the resource is active.')
+from handlers.base import BaseHandler
+from models.resource import ResourceModel
 
 
 class ResourceHandler(BaseHandler):
@@ -78,19 +21,19 @@ class ResourceHandler(BaseHandler):
         delete - POST/DELETE /resources/{id}/{action}/
 
     """
-    # @webapp2.cached_property
-    # def form(self):
-    #     """
-    #     Reference to the WTForm object
+    @webapp2.cached_property
+    def form(self):
+        """
+        Reference to the WTForm object
 
-    #     This is used to inject self.form
-    #     into the template context.
-    #     """
-    #     # Generate a form based on the model.
-    #     ResourceModelForm = model_form(ResourceModel)
-    #     # create and return an instance of the form based on
-    #     # the ResourceModel
-    #     return ResourceModelForm
+        This is used to inject self.form
+        into the template context.
+        """
+        # Generate a form based on the model.
+        ResourceModelForm = model_form(ResourceModel)
+        # create and return an instance of the form based on
+        # the ResourceModel
+        return ResourceModelForm
 
     def index(self):
         """
@@ -99,7 +42,14 @@ class ResourceHandler(BaseHandler):
         Display a list of resources
 
         """
-        self.render_response('resource.html')
+
+        context = {
+            'action': 'Index',
+            'form': None,
+            'submit_routename': '#'
+        }
+
+        self.render_response('resource.html', context=context)
 
     def new(self):
         """
@@ -165,7 +115,7 @@ class ResourceHandler(BaseHandler):
         context = {
             'action': 'Show',
             'id': id
-         }
+        }
 
         self.render_response('resource.html', context)
 
@@ -186,7 +136,7 @@ class ResourceHandler(BaseHandler):
             'id': id,
             'form': form,
             'submit_routename': 'resource.update'
-         }
+        }
 
         self.render_response('resource.html', context)
 
@@ -238,23 +188,3 @@ class ResourceHandler(BaseHandler):
         """
         context = {'action': 'Delete'}
         self.render_response('resource.html', context)
-
-
-class MainHandler(BaseHandler):
-
-    def get(self):
-        template_values = {
-            'key': 'value'
-        }
-
-        self.render_response('starter-template.html', template_values)
-
-
-class TemplateHandler(BaseHandler):
-    def get(self, template_name):
-
-        template_values = {
-            'key': 'value'
-        }
-
-        self.render_response(template_name + '.html', template_values)

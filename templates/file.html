@@ -1,0 +1,19 @@
+{# --- Extend the base.html layout #}
+{% extends 'base.html' %}
+{# --- customize page level blocks #}
+{% block title %}File{% endblock title %}
+{% block project_name %}gae_datastore_mapper{% endblock project_name %}
+{% block description %}Generate File Data{% endblock description%}
+
+    {% block content %}
+    <div class="container">
+
+      <h1>File template</h1>
+      <div class='well'>
+        {% for message in messagelog %}
+          {{ message }}<br/>
+        {% endfor %}
+      </div>
+
+    </div> <!-- /container -->
+    {% endblock %}

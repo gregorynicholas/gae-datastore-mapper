@@ -1,0 +1,15 @@
+{# --- Extend the base.html layout #}
+{% extends 'base.html' %}
+{# --- customize page level blocks #}
+{% block title %}Main{% endblock title %}
+{% block project_name %}gae_datastore_mapper{% endblock project_name %}
+{% block description %}Main Template{% endblock description%}
+
+    {% block content %}
+    <div class="container">
+
+      <h1>Bootstrap starter template</h1>
+      <p>Use this document as a way to quick start any new project.<br> All you get is this message and a barebones HTML document.</p>
+
+    </div> <!-- /container -->
+    {% endblock %}
