@@ -1,8 +1,25 @@
-application: mini-gae-bootstrap-template
-version: latest
+application: gae-datastore-mapper
+version: dev
 runtime: python27
 api_version: 1
 threadsafe: yes
+
+builtins:
+# Available handlers are: admin_redirect, appstats, default, deferred, django_wsgi, remote_api
+# See https://developers.google.com/appengine/docs/python/config/appconfig#Builtin_Handlers
+- admin_redirect: on #/_ah/admin
+- appstats: on
+- default: on
+- deferred: on # Enables the deferred handler at /_ah/queue/deferred
+- remote_api: on # Enables the remote_api builtin at /_ah/remote_api/
+
+inbound_services:
+# See
+# https://developers.google.com/appengine/docs/python/config/appconfig#Inbound_Services
+- mail
+- warmup
+- channel_presence # registers your application for notifications when a client connects or disconnects from a channel.
+
 
 handlers:
 - url: /favicon\.ico
@@ -41,6 +58,18 @@ libraries:
 - name: jinja2
   version: "2.6"
 - name: webapp2
-  version: "2.5.1"
+  version: "2.5.2"
 - name: markupsafe
   version: "0.15"
+
+skip_files:
+- ^(.*/)?app\.yaml
+- ^(.*/)?app\.yml
+- ^(.*/)?index\.yaml
+- ^(.*/)?index\.yml
+- ^(.*/)?#.*#
+- ^(.*/)?.*~
+- ^(.*/)?.*\.py[co]
+- ^(.*/)?.*/RCS/.*
+- ^(.*/)?\..*
+- ^(.*/)?.*\.bak$

@@ -2,13 +2,15 @@ from google.appengine.api import app_identity
 import logging
 import os
 
-app_name = "REPLACE"
+app_name = "gae-datastore-mapper"
 app_id = app_identity.get_application_id()
-isLocal = os.environ['SERVER_SOFTWARE'].startswith('Dev')
+isDev = os.environ['SERVER_SOFTWARE'].startswith('Dev')
+isLocal = isDev
+debug = isDev
 
 webapp2_config = {}
 webapp2_config['webapp2_extras.sessions'] = {
-    'secret_key': '1AE9F84E-D822-411C-8586-ABEE310CDE90',
+    'secret_key': 'ajsdlkhandnaisdnoainsdiands',
 }
 
 webapp2_config['webapp2_extras.auth'] = {

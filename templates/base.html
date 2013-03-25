@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>{% block title %}Default Page Title{% endblock %}</title>
+    <title>{% block title %}{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="{% block description %}{% endblock %}">
     <meta name="author" content="">
@@ -43,7 +43,11 @@
           <div class="nav-collapse collapse">
             <ul class="nav">
               {% block nav %}
-              <li class="active"><a href="#">Home</a></li>
+              <li><a href="/">Main</a></li>
+              <li><a href="/fluid/">Fluid</a></li>
+              <li><a href="/hero/">Hero</a></li>
+              <li><a href="/resource/">Resource</a></li>
+
               <li><a href="#about">About</a></li>
               <li><a href="#contact">Contact</a></li>
               {% endblock %}
@@ -54,9 +58,19 @@
     </div>
     {% endblock %}
 
-    <div class="container">
-      {% block content %}{% endblock %}
-    </div> <!-- /container -->
+    {% block content %}
+      <div class="container">
+      </div> <!-- /container -->
+      {% endblock %}
+
+      {% block footer %}
+      <div class="container footer">
+        <hr>
+        <footer>
+          <p>&copy; Company 2012</p>
+        </footer>
+      </div>
+    {% endblock %}
 
     <!-- Le javascript
     ================================================== -->

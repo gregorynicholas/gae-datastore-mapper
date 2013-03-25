@@ -5,7 +5,7 @@
 {% import 'forms.html' as forms %}
 
 {# --- customize page level blocks #}
-{% block title %}webapp2{% endblock title %}
+{% block title %}Resource{% endblock title %}
 {% block project_name %}webapp2{% endblock project_name %}
 {% block description %}Reference application for webapp2, WTForms, Jinja2, and Bootstrap{% endblock description%}
 
@@ -24,7 +24,7 @@
 
 {# --- Customize Site Navigation #}
 {% block nav %}
-
+              <li><a href="/">Home</a></li>
               <li><a href="/resources/">Index</a></li>
               <li><a href="/resources/new/">New</a></li>
               <li><a href="/resources/100/">Show</a></li>
@@ -34,14 +34,18 @@
 
 {# --- Populate page content #}
 {% block content %}
+    <div class="container">
+
       <h1>Resources</h1>
 
       {% if form %}
-      <form action="{{ uri_for(submit_routename, id=id) }}" method="POST">
-        {{ forms.form_fields(form, class=None, legend='This is a simple legend for the form.') }}
-        {{ forms.action_buttons('Save') }}
-      </form>
+        <form action="{{ uri_for(submit_routename, id=id) }}" method="POST">
+          {{ forms.form_fields(form, class=None, legend='This is a simple legend for the form.') }}
+          {{ forms.action_buttons('Save') }}
+        </form>
       {% endif %}
+
+    </div>
 
 {% endblock content %}
 
